@@ -19,6 +19,8 @@
 		C98A39CA1EDCB969000C0CBB /* ChatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98A39C91EDCB969000C0CBB /* ChatsTableViewController.swift */; };
 		C98A39CC1EDCBA2C000C0CBB /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98A39CB1EDCBA2C000C0CBB /* LoginTableViewController.swift */; };
 		C98A39D11EDCC175000C0CBB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C98A39D01EDCC175000C0CBB /* GoogleService-Info.plist */; };
+		C998F2ED1EE1D294004FDFB6 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C998F2EC1EE1D294004FDFB6 /* ChatLogController.swift */; };
+		C998F2F11EE22308004FDFB6 /* ChatMessageCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C998F2F01EE22308004FDFB6 /* ChatMessageCellController.swift */; };
 		C9AA2A8C1EDD336000BDD64C /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2A8B1EDD336000BDD64C /* NewMessageTableViewController.swift */; };
 		C9AA2A8F1EDD354B00BDD64C /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2A8E1EDD354B00BDD64C /* LocalUser.swift */; };
 		C9AA2A941EDE184200BDD64C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2A931EDE184200BDD64C /* Extensions.swift */; };
@@ -70,6 +72,8 @@
 		C98A39C91EDCB969000C0CBB /* ChatsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableViewController.swift; sourceTree = "<group>"; };
 		C98A39CB1EDCBA2C000C0CBB /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		C98A39D01EDCC175000C0CBB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C998F2EC1EE1D294004FDFB6 /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		C998F2F01EE22308004FDFB6 /* ChatMessageCellController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCellController.swift; sourceTree = "<group>"; };
 		C9AA2A8B1EDD336000BDD64C /* NewMessageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageTableViewController.swift; sourceTree = "<group>"; };
 		C9AA2A8E1EDD354B00BDD64C /* LocalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalUser.swift; path = Models/LocalUser.swift; sourceTree = "<group>"; };
 		C9AA2A931EDE184200BDD64C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Helpers/Extensions.swift; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 		C98A39C81EDCB94B000C0CBB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C998F2EB1EE1D25A004FDFB6 /* ChatControllers */,
 				C98A39C91EDCB969000C0CBB /* ChatsTableViewController.swift */,
 				C98A39CB1EDCBA2C000C0CBB /* LoginTableViewController.swift */,
 				C9AA2A8B1EDD336000BDD64C /* NewMessageTableViewController.swift */,
@@ -205,6 +210,15 @@
 			children = (
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		C998F2EB1EE1D25A004FDFB6 /* ChatControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C998F2EC1EE1D294004FDFB6 /* ChatLogController.swift */,
+				C998F2F01EE22308004FDFB6 /* ChatMessageCellController.swift */,
+			);
+			name = ChatControllers;
 			sourceTree = "<group>";
 		};
 		C9AA2A8D1EDD352C00BDD64C /* Models */ = {
@@ -514,11 +528,13 @@
 				C98A399B1EDCB92A000C0CBB /* AppDelegate.swift in Sources */,
 				C9AA2A9A1EE074E400BDD64C /* Message.swift in Sources */,
 				C98A39CA1EDCB969000C0CBB /* ChatsTableViewController.swift in Sources */,
+				C998F2ED1EE1D294004FDFB6 /* ChatLogController.swift in Sources */,
 				C9AA2AA41EE0CE0B00BDD64C /* MessageTableViewCell.swift in Sources */,
 				C9AA2A8F1EDD354B00BDD64C /* LocalUser.swift in Sources */,
 				C9AA2A8C1EDD336000BDD64C /* NewMessageTableViewController.swift in Sources */,
 				C9AA2A941EDE184200BDD64C /* Extensions.swift in Sources */,
 				C9AA2A981EDF5E9400BDD64C /* ChatLogViewController.swift in Sources */,
+				C998F2F11EE22308004FDFB6 /* ChatMessageCellController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,11 +687,12 @@
 			baseConfigurationReference = 61CEC63FEB755D2E66B2ACA4 /* Pods-ChatApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = VLV5UQLEY2;
 				INFOPLIST_FILE = ChatApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cl.lagash.chatapp;
+				PRODUCT_BUNDLE_IDENTIFIER = cl.lagash.chatboxtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -686,11 +703,12 @@
 			baseConfigurationReference = AF01F145EE225E88FA18063D /* Pods-ChatApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = VLV5UQLEY2;
 				INFOPLIST_FILE = ChatApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cl.lagash.chatapp;
+				PRODUCT_BUNDLE_IDENTIFIER = cl.lagash.chatboxtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

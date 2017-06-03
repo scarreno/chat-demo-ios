@@ -14,6 +14,9 @@ class Message: NSObject {
     var toId: String?
     var text: String?
     var timestamp: NSNumber?
+    var imageUrl: String?
+    var imageWidth: NSNumber?
+    var imageHeight: NSNumber?
     
     
     func chatPartnerId() -> String {
@@ -23,5 +26,18 @@ class Message: NSObject {
     
     func cellIdentifier() -> String {
         return fromId != Auth.auth().currentUser?.uid ? "incomingMessageCell" : "outcomingMessageCell"
+    }
+    
+    init(dictionary: [String: AnyObject]) {
+        super.init()
+        
+        fromId = dictionary["fromId"] as? String
+        toId = dictionary["toId"] as? String
+        text = dictionary["text"] as? String
+        timestamp = dictionary["timestamp"] as? NSNumber
+        
+        imageUrl = dictionary["imageUrl"] as? String
+        imageWidth = dictionary["imageWidth"] as? NSNumber
+        imageHeight = dictionary["imageHeight"] as? NSNumber
     }
 }

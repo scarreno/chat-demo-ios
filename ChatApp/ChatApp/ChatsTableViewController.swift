@@ -25,7 +25,6 @@ class ChatsTableViewController: UITableViewController {
         
         checkIfUserLoggedIn()
         
-        //observeMessages()
         observeUserMessages()
     }
     
@@ -38,58 +37,56 @@ class ChatsTableViewController: UITableViewController {
         
         let ref = Database.database().reference().child("user-messages").child(uid)
         ref.observe(.childAdded, with: { (snapshot) in
-            let messageId = snapshot.key
-            let messageReference = Database.database().reference().child("messages").child(messageId)
             
-            messageReference.observe(DataEventType.value, with: { (snapshot) in
-                
-                if let dictionary = snapshot.value as? [String: AnyObject]{
-                    let message = Message()
-                    message.setValuesForKeys(dictionary)
-                    
-                    if let chatPartnerId = message.chatPartnerId() as? String {
-                        
-                            self.messageDictionary[chatPartnerId] = message
-                        
-                            self.messages = Array(self.messageDictionary.values)
-                            self.messages.sort(by: { (message1, message2) -> Bool in
-                            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
-                            })
-                    }
-                    
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            }, withCancel: nil)
+            let userId  = snapshot.key
             
+            Database.database().reference().child("user-messages").child(uid).child(userId).observe(DataEventType.childAdded, with: { (snapshot) in
+                
+                let messageId = snapshot.key
+                self.fetchMessagesWithMessageId(messageId: messageId)
+                
+                            }, withCancel: nil)
         }, withCancel: nil)
     }
     
-    func observeMessages(){
-            let ref = Database.database().reference().child("messages")
-        ref.observe(.childAdded, with: { (snapshot) in
+    private func fetchMessagesWithMessageId(messageId: String){
+        let messageReference = Database.database().reference().child("messages").child(messageId)
+        
+        messageReference.observe(DataEventType.value, with: { (snapshot) in
+            
             if let dictionary = snapshot.value as? [String: AnyObject]{
-                let message = Message()
-                message.setValuesForKeys(dictionary)
-                
-                if let toId = message.toId{
-                    self.messageDictionary[toId] = message
+                let message = Message(dictionary: dictionary)                
+                if let chatPartnerId = message.chatPartnerId() as? String {
                     
-                    self.messages = Array(self.messageDictionary.values)
-                    self.messages.sort(by: { (message1, message2) -> Bool in
-                        return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
-                    })
+                    self.messageDictionary[chatPartnerId] = message
+                    
                 }
                 
+                self.attempReloadTable()
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-            
             
         }, withCancel: nil)
+
+    }
+    var timer: Timer?
+    
+    func attempReloadTable(){
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    func handleReloadTable(){
+        
+        self.messages = Array(self.messageDictionary.values)
+        self.messages.sort(by: { (message1, message2) -> Bool in
+            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
+        })
+
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    
     }
     
     func checkIfUserLoggedIn(){
@@ -177,10 +174,17 @@ class ChatsTableViewController: UITableViewController {
     }
     
     func showChatLogControllerForUser(user: LocalUser){
+       /*
         if let chatLogController = storyboard?.instantiateViewController(withIdentifier: "ChatLogViewController") as? ChatLogViewController {
             chatLogController.receptorUser = user
             navigationController?.pushViewController(chatLogController, animated: true)
         }
+        */
+        
+        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
+        //let chatLogController = ChatLogController()
+        chatLogController.receptorUser = user
+        navigationController?.pushViewController(chatLogController, animated: true)
     }
 
     
