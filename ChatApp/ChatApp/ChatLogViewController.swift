@@ -50,8 +50,7 @@ class ChatLogViewController: UIViewController {
                     return
                 }
                 
-                let message = Message()
-                message.setValuesForKeys(dictionary)
+                let message = Message(dictionary: dictionary)
                 
                 if message.fromId == self.receptorUser?.id || message.toId == self.receptorUser?.id {
                     self.messages.append(message)
@@ -275,7 +274,7 @@ extension ChatLogViewController: UITableViewDataSource, UITableViewDelegate  {
         
         
         if message.cellIdentifier() == "incomingMessageCell" {
-            cell.bubbleView.backgroundColor = UIColor.lightGray
+            cell.bubbleView.backgroundColor = UIColor(r: 240, g: 240, b: 240)
             cell.messageTextView.textColor = UIColor.black
         }else {
             cell.bubbleView.backgroundColor = UIColor(r: 0, g: 137, b: 249)

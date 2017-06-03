@@ -58,7 +58,21 @@ class ChatReceptorsTableViewCell: UITableViewCell {
                     user.setValuesForKeys(dictionary)
                     
                     self.titleLabel.text = user.name
-                    self.subTitleLabel.text = self.message?.text
+                    
+                    if let text = self.message?.text {
+                        if self.message?.fromId == Auth.auth().currentUser?.uid {
+                            self.subTitleLabel.text = "You: \(text)"
+                        }else{
+                            self.subTitleLabel.text = text
+                        }
+                        
+                    }else{
+                        if self.message?.fromId == Auth.auth().currentUser?.uid {
+                            self.subTitleLabel.text = "You: Sent an Image..."
+                        }else{
+                            self.subTitleLabel.text = "Sent an image..."
+                        }
+                    }
                     
                     
                     if let profileImageUrl = user.profileImageUrl {
