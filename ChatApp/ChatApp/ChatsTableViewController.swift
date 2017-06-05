@@ -20,7 +20,9 @@ class ChatsTableViewController: UITableViewController {
         
         self.navigationItem.title = ""
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(verifyLogout))
+        logoutButton.setStyle()
+        navigationItem.leftBarButtonItem = logoutButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleNewMessage))
         
         checkIfUserLoggedIn()
@@ -154,6 +156,7 @@ class ChatsTableViewController: UITableViewController {
         containerView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = user.name
+        nameLabel.setMediumBoldLagashFont()
         
         nameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
@@ -196,6 +199,21 @@ class ChatsTableViewController: UITableViewController {
             present(navController, animated: true, completion: nil)
         }
     }
+    
+    func verifyLogout(){
+        
+        let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (action) in
+            self.handleLogout()
+        })
+        )
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    
     func handleLogout(){
         do{
             try Auth.auth().signOut()
@@ -207,9 +225,10 @@ class ChatsTableViewController: UITableViewController {
         }catch let logoutError {
             print(logoutError)
         }
-        if let loginView = storyboard?.instantiateViewController(withIdentifier: "LoginTableViewController") as? LoginTableViewController {
-            loginView.chatController = self
-            present(loginView, animated: true, completion: nil)
+        if let signUpView = storyboard?.instantiateViewController(withIdentifier: "RegisterTableViewController") as? RegisterTableViewController {
+            signUpView.chatController = self
+            var navSignUpView = UINavigationController(rootViewController: signUpView)
+            present(navSignUpView, animated: true, completion: nil)
         }
         
     }

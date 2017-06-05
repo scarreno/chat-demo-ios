@@ -21,16 +21,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LagashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MwB-P7-LhW">
-                                <rect key="frame" x="87" y="283.5" width="200" height="100"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blanco_azul_vertical" translatesAutoresizingMaskIntoConstraints="NO" id="THK-90-ZLZ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LagashLogoAzul" translatesAutoresizingMaskIntoConstraints="NO" id="MwB-P7-LhW">
+                                <rect key="frame" x="87" y="283" width="200" height="100"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="CZ1-v8-tSJ"/>
                                     <constraint firstAttribute="width" constant="200" id="Uj3-3k-wmB"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="THK-90-ZLZ" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="2rA-pK-wll"/>
+                            <constraint firstAttribute="trailing" secondItem="THK-90-ZLZ" secondAttribute="trailing" id="4r6-3O-7rg"/>
+                            <constraint firstItem="THK-90-ZLZ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="AYR-Qp-IDi"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="THK-90-ZLZ" secondAttribute="bottom" id="D9M-hF-pZb"/>
                             <constraint firstItem="MwB-P7-LhW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="dwU-L2-0BC"/>
                             <constraint firstItem="MwB-P7-LhW" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="jsQ-UX-yfu"/>
                         </constraints>
@@ -38,10 +45,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
     <resources>
-        <image name="LagashLogo" width="16" height="16"/>
+        <image name="LagashLogoAzul" width="290" height="94"/>
+        <image name="blanco_azul_vertical" width="16" height="16"/>
     </resources>
 </document>
