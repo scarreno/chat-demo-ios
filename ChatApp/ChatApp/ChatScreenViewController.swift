@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ChatScreenViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     
     let cellId = "cellId"
@@ -65,7 +65,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func setupCell(cell: ChatMessageCellController, message: Message){
         
-        cell.chatLogController = self
+        cell.chatScreenViewController = self
         if let text = message.text {
             cell.textView.text = text
             cell.bubbleWithAnchor?.constant = estimatedFrameForText(text: text).width + 32
@@ -81,7 +81,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
         
         if message.fromId == Auth.auth().currentUser?.uid {
-            //out
             if  message.text != nil {
                 cell.bubbleView.backgroundColor = UIColor(r: 0, g: 137, b: 249)
             }
@@ -91,7 +90,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             cell.bubbleViewLeftAnchor?.isActive = false
             cell.profileImageView.image = nil
         }else {
-            //in
             
             if  message.text != nil {
                 cell.bubbleView.backgroundColor = UIColor(r: 240, g: 240, b: 240)
@@ -501,7 +499,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
 
 
-extension ChatLogController: UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+extension ChatScreenViewController: UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     func textViewDidChange(_ textView: UITextView) {
         self.resizeInputTextView()
