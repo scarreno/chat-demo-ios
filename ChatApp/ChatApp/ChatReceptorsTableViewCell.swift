@@ -28,6 +28,7 @@ class ChatReceptorsTableViewCell: UITableViewCell {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "hh:mm:ss a"
                 self.timeLabel.text = dateFormatter.string(from: timestampDate as Date)
+                self.timeLabel.setSmallLagashFont()
             }
 
         }
@@ -37,6 +38,9 @@ class ChatReceptorsTableViewCell: UITableViewCell {
         didSet{
             self.titleLabel.text = user?.name
             self.subTitleLabel.text = user?.email
+            
+            self.titleLabel.setTitleLagashFont()
+            self.subTitleLabel.setMediumLagashFont()
             
             if let profileImageUrl = user?.profileImageUrl {
                 self.userImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
@@ -74,6 +78,8 @@ class ChatReceptorsTableViewCell: UITableViewCell {
                         }
                     }
                     
+                    self.titleLabel.setTitleLagashFont()
+                    self.subTitleLabel.setMediumLagashFont()
                     
                     if let profileImageUrl = user.profileImageUrl {
                         self.userImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)

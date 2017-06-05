@@ -17,8 +17,12 @@ class NewMessageTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "New Message"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        //navigationItem.title = "New Message"
+        setupNavBar()
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        cancelButton.setStyle()
+        navigationItem.leftBarButtonItem = cancelButton
 
         fetchUsers()
     }
@@ -29,6 +33,30 @@ class NewMessageTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func setupNavBar(){
+        
+        let titleView = UIView()
+        titleView.frame = CGRect(x: 0, y: 0, width: 130, height: 40)
+        
+        
+        let nameLabel = UILabel()
+        titleView.addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.text = "New Message"
+        nameLabel.setMediumBoldLagashFont()
+        
+        nameLabel.leftAnchor.constraint(equalTo: titleView.rightAnchor, constant: 8).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: titleView.rightAnchor).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        nameLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        
+        self.navigationItem.titleView = titleView
+
     }
     
     func fetchUsers(){

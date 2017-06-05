@@ -191,7 +191,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     var containerViewbottomAnchor: NSLayoutConstraint?
     var containerViewHeightAnchor: NSLayoutConstraint?
     let inputTextView = UITextView()
-    
+    let sendButton = UIButton(type: .system)
     
     func configAttachAlert(){
         self.attachAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -222,7 +222,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         
         let uploadImageView = UIImageView()
-        uploadImageView.image = UIImage(named: "DefaultUser")
+        uploadImageView.image = UIImage(named: "icon-Attach")
         uploadImageView.translatesAutoresizingMaskIntoConstraints = false
         uploadImageView.contentMode = .scaleAspectFill
         uploadImageView.layer.masksToBounds = true
@@ -236,10 +236,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         uploadImageView.heightAnchor.constraint(equalToConstant: 34).isActive = true
         
         
-        let sendButton = UIButton(type: .system)
+        
         sendButton.setTitle("Send", for: UIControlState.normal)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        sendButton.isEnabled = false
+        sendButton.setFontButton()
         containerView.addSubview(sendButton)
         
         //x,y,w,h
@@ -256,7 +258,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         inputTextView.isScrollEnabled = false
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.borderColor = UIColor.lightGray.cgColor
-        inputTextView.layer.borderWidth = 0.5    
+        inputTextView.layer.borderWidth = 0.5
+        inputTextView.setInputLagashFont()
         containerView.addSubview(inputTextView)
         
         //x,y,w,h
@@ -502,6 +505,8 @@ extension ChatLogController: UITextViewDelegate, UIImagePickerControllerDelegate
     
     func textViewDidChange(_ textView: UITextView) {
         self.resizeInputTextView()
+        
+        self.sendButton.isEnabled = textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).lengthOfBytes(using: String.Encoding.utf8) > 0
     }
     
     func handleImageSelection() {

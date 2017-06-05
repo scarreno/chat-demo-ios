@@ -28,6 +28,12 @@
 		C9AA2A9A1EE074E400BDD64C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2A991EE074E400BDD64C /* Message.swift */; };
 		C9AA2A9E1EE083A500BDD64C /* ChatReceptorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2A9D1EE083A500BDD64C /* ChatReceptorsTableViewCell.swift */; };
 		C9AA2AA41EE0CE0B00BDD64C /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA2AA31EE0CE0B00BDD64C /* MessageTableViewCell.swift */; };
+		C9EC8AC11EE5C3D300C30141 /* RegisterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EC8AC01EE5C3D300C30141 /* RegisterTableViewController.swift */; };
+		C9EC8AC71EE5C95200C30141 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9EC8AC21EE5C95200C30141 /* Poppins-Bold.ttf */; };
+		C9EC8AC81EE5C95200C30141 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9EC8AC31EE5C95200C30141 /* Poppins-Light.ttf */; };
+		C9EC8AC91EE5C95200C30141 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9EC8AC41EE5C95200C30141 /* Poppins-Medium.ttf */; };
+		C9EC8ACA1EE5C95200C30141 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9EC8AC51EE5C95200C30141 /* Poppins-Regular.ttf */; };
+		C9EC8ACB1EE5C95200C30141 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9EC8AC61EE5C95200C30141 /* Poppins-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +87,12 @@
 		C9AA2A991EE074E400BDD64C /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Models/Message.swift; sourceTree = "<group>"; };
 		C9AA2A9D1EE083A500BDD64C /* ChatReceptorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatReceptorsTableViewCell.swift; sourceTree = "<group>"; };
 		C9AA2AA31EE0CE0B00BDD64C /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		C9EC8AC01EE5C3D300C30141 /* RegisterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterTableViewController.swift; sourceTree = "<group>"; };
+		C9EC8AC21EE5C95200C30141 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		C9EC8AC31EE5C95200C30141 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		C9EC8AC41EE5C95200C30141 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		C9EC8AC51EE5C95200C30141 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		C9EC8AC61EE5C95200C30141 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +149,7 @@
 		C98A398E1EDCB92A000C0CBB = {
 			isa = PBXGroup;
 			children = (
+				C9EC8ACC1EE5C95600C30141 /* Resources */,
 				C98A39991EDCB92A000C0CBB /* ChatApp */,
 				C98A39AE1EDCB92A000C0CBB /* ChatAppTests */,
 				C98A39B91EDCB92A000C0CBB /* ChatAppUITests */,
@@ -162,7 +175,6 @@
 				C9AA2A921EDE119400BDD64C /* Helpers */,
 				C9AA2A8D1EDD352C00BDD64C /* Models */,
 				C98A39D01EDCC175000C0CBB /* GoogleService-Info.plist */,
-				C98A39CD1EDCBFE4000C0CBB /* images */,
 				C98A39C81EDCB94B000C0CBB /* Controllers */,
 				C98A399A1EDCB92A000C0CBB /* AppDelegate.swift */,
 				C98A399E1EDCB92A000C0CBB /* Main.storyboard */,
@@ -201,15 +213,9 @@
 				C9AA2A971EDF5E9400BDD64C /* ChatLogViewController.swift */,
 				C9AA2A9D1EE083A500BDD64C /* ChatReceptorsTableViewCell.swift */,
 				C9AA2AA31EE0CE0B00BDD64C /* MessageTableViewCell.swift */,
+				C9EC8AC01EE5C3D300C30141 /* RegisterTableViewController.swift */,
 			);
 			name = Controllers;
-			sourceTree = "<group>";
-		};
-		C98A39CD1EDCBFE4000C0CBB /* images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = images;
 			sourceTree = "<group>";
 		};
 		C998F2EB1EE1D25A004FDFB6 /* ChatControllers */ = {
@@ -236,6 +242,18 @@
 				C9AA2A931EDE184200BDD64C /* Extensions.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		C9EC8ACC1EE5C95600C30141 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9EC8AC21EE5C95200C30141 /* Poppins-Bold.ttf */,
+				C9EC8AC31EE5C95200C30141 /* Poppins-Light.ttf */,
+				C9EC8AC41EE5C95200C30141 /* Poppins-Medium.ttf */,
+				C9EC8AC51EE5C95200C30141 /* Poppins-Regular.ttf */,
+				C9EC8AC61EE5C95200C30141 /* Poppins-SemiBold.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,9 +376,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C98A39A51EDCB92A000C0CBB /* LaunchScreen.storyboard in Resources */,
+				C9EC8AC91EE5C95200C30141 /* Poppins-Medium.ttf in Resources */,
+				C9EC8AC81EE5C95200C30141 /* Poppins-Light.ttf in Resources */,
 				C98A39D11EDCC175000C0CBB /* GoogleService-Info.plist in Resources */,
+				C9EC8AC71EE5C95200C30141 /* Poppins-Bold.ttf in Resources */,
 				C98A39A21EDCB92A000C0CBB /* Assets.xcassets in Resources */,
+				C9EC8ACB1EE5C95200C30141 /* Poppins-SemiBold.ttf in Resources */,
 				C98A39A01EDCB92A000C0CBB /* Main.storyboard in Resources */,
+				C9EC8ACA1EE5C95200C30141 /* Poppins-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9AA2A9E1EE083A500BDD64C /* ChatReceptorsTableViewCell.swift in Sources */,
+				C9EC8AC11EE5C3D300C30141 /* RegisterTableViewController.swift in Sources */,
 				C98A39CC1EDCBA2C000C0CBB /* LoginTableViewController.swift in Sources */,
 				C98A399B1EDCB92A000C0CBB /* AppDelegate.swift in Sources */,
 				C9AA2A9A1EE074E400BDD64C /* Message.swift in Sources */,
