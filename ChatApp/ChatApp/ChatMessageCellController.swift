@@ -41,7 +41,7 @@ class ChatMessageCellController: UICollectionViewCell {
         return imageView
     }()
 
-    var chatLogController: ChatLogController?
+    var chatScreenViewController: ChatScreenViewController?
     
     lazy var messageImageView: UIImageView = {
         let imageView = UIImageView()
@@ -58,7 +58,7 @@ class ChatMessageCellController: UICollectionViewCell {
 
     func handleZoomTap(tapGesture: UITapGestureRecognizer){
         let imageView = tapGesture.view as! UIImageView
-        self.chatLogController?.performZoomInStartingImageView(startingImageView: imageView)
+        self.chatScreenViewController?.performZoomInStartingImageView(startingImageView: imageView)
     }
     
     var bubbleWithAnchor: NSLayoutConstraint?

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LoginTableViewController: UITableViewController {
+class LoginTableViewController: BaseTableViewController {
 
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var emailTextField: UITextField!
@@ -77,6 +77,10 @@ class LoginTableViewController: UITableViewController {
             return
         }
         
+        self.dismissKeyboard()
+        
+        self.showSpinner()
+        
         Auth.auth().signIn(withEmail: email, password: password) { (user: User?, error) in
             if error != nil {
                 self.showMessage(text: "There has been an error trying to signin", title: "Error!")
@@ -85,15 +89,13 @@ class LoginTableViewController: UITableViewController {
                     print(errorMessage)
                 }
                 */
+                self.hideSpinner()
                 return
             }
             
             self.chatController?.fetchUserAndSetupNavBar()
-            //let chatsController = self.storyboard?.instantiateViewController(withIdentifier: "ChatsNavigationController")
-            //self.present(chatsController!, animated: true, completion: nil)
+            self.hideSpinner()
             self.dismiss(animated: true, completion: nil)
-            
-            print("Login success!")
         }
     }
     
@@ -112,6 +114,7 @@ extension LoginTableViewController: UITextFieldDelegate, UIImagePickerController
         }
         else{
             textField.resignFirstResponder()
+            handleLogin()
             return true
         }
     }

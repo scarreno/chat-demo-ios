@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 
-class RegisterTableViewController: UITableViewController {
+class SignupTableViewController: BaseTableViewController {
 
     @IBOutlet var profileImageView: UIImageView!
     
@@ -81,7 +81,6 @@ class RegisterTableViewController: UITableViewController {
     
     
     func registerUser(){
-        
         if !self.isProfilePictureLoaded {
             showMessage(text: "Select a picture!", title: "Oops!")
             return
@@ -97,11 +96,15 @@ class RegisterTableViewController: UITableViewController {
             return
         }
         
+        self.dismissKeyboard()
+        self.showSpinner()
+        
         Auth.auth().createUser(withEmail: email.lowercased(), password: password,
                                completion: { (user: User?, error) in
                                 if error != nil {
                                     print(error)
                                     self.showMessage(text: "There has been an error trying to register", title: "Error!")
+                                    self.hideSpinner()
                                     return
                                 }
                                 
@@ -118,6 +121,7 @@ class RegisterTableViewController: UITableViewController {
                                     storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
                                         if error != nil {
                                             self.showMessage(text: "There has been an error uploading the profile picture", title: "Error!")
+                                            self.hideSpinner()
                                             return
                                         }
                                         
@@ -167,7 +171,7 @@ class RegisterTableViewController: UITableViewController {
 }
 
 
-extension RegisterTableViewController : UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+extension SignupTableViewController : UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == nameTextField {
             emailTextField.becomeFirstResponder()

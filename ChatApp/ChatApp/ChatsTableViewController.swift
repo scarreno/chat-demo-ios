@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatsTableViewController: UITableViewController {
+class ChatsTableViewController: BaseTableViewController {
 
     
     var messages = [Message]()
@@ -35,7 +35,6 @@ class ChatsTableViewController: UITableViewController {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        
         
         let ref = Database.database().reference().child("user-messages").child(uid)
         ref.observe(.childAdded, with: { (snapshot) in
@@ -68,7 +67,6 @@ class ChatsTableViewController: UITableViewController {
             }
             
         }, withCancel: nil)
-
     }
     var timer: Timer?
     
@@ -167,25 +165,10 @@ class ChatsTableViewController: UITableViewController {
         containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
         self.navigationItem.titleView = titleView
         
-        //titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatLogController)))
     }
-    
-    func showChatLogController(){
-        if let chatLogController = storyboard?.instantiateViewController(withIdentifier: "ChatLogViewController") {
-            navigationController?.pushViewController(chatLogController, animated: true)
-        }
-    }
-    
-    func showChatLogControllerForUser(user: LocalUser){
-       /*
-        if let chatLogController = storyboard?.instantiateViewController(withIdentifier: "ChatLogViewController") as? ChatLogViewController {
-            chatLogController.receptorUser = user
-            navigationController?.pushViewController(chatLogController, animated: true)
-        }
-        */
-        
-        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
-        //let chatLogController = ChatLogController()
+       func showChatLogControllerForUser(user: LocalUser){
+               let chatLogController = ChatScreenViewController(collectionViewLayout: UICollectionViewFlowLayout())
+       
         chatLogController.receptorUser = user
         navigationController?.pushViewController(chatLogController, animated: true)
     }
@@ -225,7 +208,7 @@ class ChatsTableViewController: UITableViewController {
         }catch let logoutError {
             print(logoutError)
         }
-        if let signUpView = storyboard?.instantiateViewController(withIdentifier: "RegisterTableViewController") as? RegisterTableViewController {
+        if let signUpView = storyboard?.instantiateViewController(withIdentifier: "SignupTableViewController") as? SignupTableViewController {
             signUpView.chatController = self
             var navSignUpView = UINavigationController(rootViewController: signUpView)
             present(navSignUpView, animated: true, completion: nil)
