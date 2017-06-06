@@ -140,10 +140,10 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
     
     func estimatedFrameForText(text: String) -> CGRect {
         
-        let size = CGSize(width: 200, height: 1000)
+        let size = CGSize(width: 200, height: 2000)
         let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
         
-        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 19)], context: nil)
     }
 
     
@@ -401,13 +401,15 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
             return
         }
         if let message = inputTextView.text {
-            let values = ["text": message] as [String : AnyObject]
+            print(message)
+            let values = ["text": message.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)] as [String : AnyObject]
             sendMessageWithProperties(properties: values)
         }
         
         inputTextView.text = ""
         inputTextView.resignFirstResponder()
         self.dismissKeyboard()
+        resizeInputTextView()
     }
     
     func sendMessageWithImageUrl(imageUrl: String, image: UIImage){

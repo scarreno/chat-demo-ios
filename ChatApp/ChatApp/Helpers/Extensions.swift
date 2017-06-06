@@ -202,3 +202,11 @@ extension NSDate {
  
 }
 
+extension String
+{
+    func trimText() -> String
+    {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
+    }
+}
+
