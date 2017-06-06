@@ -117,6 +117,14 @@ extension UILabel {
         self.font = UIFont(name: "Poppins-Medium", size: 16)
     }
     
+    func setSuccessStyle() {
+        self.font = UIFont(name: "Poppins-Medium", size: 15)
+    }
+    func setErrorStyle() {
+        self.font = UIFont(name: "Poppins-Medium", size: 15)
+        self.textColor = UIColor.red
+    }
+    
 }
 
 extension UIButton{

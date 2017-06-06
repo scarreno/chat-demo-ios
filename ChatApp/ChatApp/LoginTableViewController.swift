@@ -37,6 +37,7 @@ class LoginTableViewController: BaseTableViewController {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
     }
     
@@ -115,7 +116,7 @@ extension LoginTableViewController: UITextFieldDelegate, UIImagePickerController
     
 }
 
-
+/*
 extension UITableViewController {
     func showMessage(text: String, title: String){
         let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
@@ -123,4 +124,16 @@ extension UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+ */
+
+
+
+extension UIViewController {
+    func showMessage(text: String, title: String){
+        let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
 

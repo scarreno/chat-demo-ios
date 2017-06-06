@@ -37,8 +37,6 @@ class SignupTableViewController: BaseTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -50,10 +48,18 @@ class SignupTableViewController: BaseTableViewController {
         passwordTextField.delegate = self
         
         StylizeForm()
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func StylizeForm(){
