@@ -40,6 +40,14 @@ class ChatMessageCellController: UICollectionViewCell {
         imageView.contentMode = UIViewContentMode.scaleAspectFill
         return imageView
     }()
+    
+    let timeLabel: UILabel = {
+        let timeLabel = UILabel()
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.setTimeStyleLagashFont()
+        return timeLabel
+    }()
+
 
     var chatScreenViewController: ChatScreenViewController?
     
@@ -64,13 +72,18 @@ class ChatMessageCellController: UICollectionViewCell {
     var bubbleWithAnchor: NSLayoutConstraint?
     var bubbleViewRightAnchor: NSLayoutConstraint?
     var bubbleViewLeftAnchor: NSLayoutConstraint?
+    var timeLabelLeftAnchor: NSLayoutConstraint?
+    var timeLabelRightAnchor: NSLayoutConstraint?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        
         self.addSubview(bubbleView)
         self.addSubview(textView)
         self.addSubview(profileImageView)
+        self.addSubview(timeLabel)
         bubbleView.addSubview(messageImageView)
         
         messageImageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -84,7 +97,7 @@ class ChatMessageCellController: UICollectionViewCell {
         
         //x,y,w,h
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
@@ -94,9 +107,9 @@ class ChatMessageCellController: UICollectionViewCell {
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         bubbleWithAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWithAnchor?.isActive = true
-        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -30).isActive = true
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8)
-        //bubbleViewLeftAnchor?.isActive = false
+        //bubbleView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         
         //x,y,w,h
         textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
@@ -104,6 +117,11 @@ class ChatMessageCellController: UICollectionViewCell {
         textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor).isActive = true
         textView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
         
+        timeLabelRightAnchor = timeLabel.rightAnchor.constraint(equalTo: bubbleView.rightAnchor)
+        timeLabelLeftAnchor = timeLabel.leftAnchor.constraint(equalTo: bubbleView.leftAnchor)
+        timeLabel.topAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: 0).isActive = true
+        timeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        timeLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
         
     }

@@ -109,6 +109,10 @@ extension UILabel {
         self.font = UIFont(name: "Poppins-Light", size: 12)
     }
     
+    func setTimeStyleLagashFont() {
+        self.font = UIFont(name: "Poppins-Light", size: 10)
+    }
+    
     func setMediumBoldLagashFont() {
         self.font = UIFont(name: "Poppins-Medium", size: 16)
     }
@@ -186,6 +190,14 @@ extension NSDate {
         dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
         
         return dateFormatter.string(from: self as Date)
+    }
+    
+    func fullFormat()-> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+        
+        return dateFormatter.string(from: self as Date)
+
     }
  
 }

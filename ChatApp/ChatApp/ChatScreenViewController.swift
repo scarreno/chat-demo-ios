@@ -66,6 +66,12 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
     func setupCell(cell: ChatMessageCellController, message: Message){
         
         cell.chatScreenViewController = self
+        
+        if let seconds = message.timestamp?.doubleValue{
+            let timestampDate = NSDate(timeIntervalSince1970: seconds)
+            cell.timeLabel.text = timestampDate.fullFormat()
+        }
+        
         if let text = message.text {
             cell.textView.text = text
             cell.bubbleWithAnchor?.constant = estimatedFrameForText(text: text).width + 32
@@ -89,6 +95,9 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
             cell.profileImageView.image = nil
+            cell.timeLabelRightAnchor?.isActive = true
+            cell.timeLabelLeftAnchor?.isActive = false
+            cell.timeLabel.textAlignment = .right
         }else {
             
             if  message.text != nil {
@@ -98,6 +107,9 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
             cell.profileImageView.isHidden = false
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
+            cell.timeLabelRightAnchor?.isActive = false
+            cell.timeLabelLeftAnchor?.isActive = true
+            cell.timeLabel.textAlignment = .left
             
             if let profileImageUrl = receptorUser?.profileImageUrl {
                 cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
@@ -112,12 +124,12 @@ class ChatScreenViewController: UICollectionViewController, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var height = CGFloat(80)
+        var height = CGFloat(100)
         
         let message = messages[indexPath.row]
         
         if let text = message.text {
-            height = estimatedFrameForText(text: text).height + 20
+            height = estimatedFrameForText(text: text).height  + 50
         }else if let imageWidth = message.imageWidth?.floatValue, let imageHeight = message.imageHeight?.floatValue{
             height = CGFloat(imageHeight / imageWidth * 200)
         }
