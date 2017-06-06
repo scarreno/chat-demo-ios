@@ -21,13 +21,22 @@ class ChatReceptorsTableViewCell: UITableViewCell {
     var message: Message? {
         didSet{
             
-            setupNameAndAvatar()
+            loadPartnerInfoOnNavBar()
             
             if let seconds = self.message?.timestamp?.doubleValue{
                 let timestampDate = NSDate(timeIntervalSince1970: seconds)
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "hh:mm:ss a"
-                self.timeLabel.text = dateFormatter.string(from: timestampDate as Date)
+                dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+                
+                let days = timestampDate.days()
+                let minutes = timestampDate.minutes()
+                let hours = timestampDate.hours()
+                let seconds = timestampDate.seconds()
+                let current = dateFormatter.string(from: Date())
+                print("current date: \(current)   formato normal \(dateFormatter.string(from: timestampDate as Date)), days: \(days) , hours: \(hours), minutes: \(minutes), seconds: \(seconds)")
+                
+                
+                self.timeLabel.text = timestampDate.getPrettyString()
                 self.timeLabel.setSmallLagashFont()
             }
 
@@ -51,7 +60,7 @@ class ChatReceptorsTableViewCell: UITableViewCell {
         }
     }
     
-    private func setupNameAndAvatar(){
+    private func loadPartnerInfoOnNavBar(){
                
         if let id = message?.chatPartnerId() {
             let ref = Database.database().reference().child("users").child(id)
@@ -97,13 +106,6 @@ class ChatReceptorsTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        userImageView.layer.cornerRadius = userImageView.frame.width / 2
-        userImageView.layer.masksToBounds = true
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
+        userImageView.makeCircular()
     }
 }

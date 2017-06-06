@@ -45,8 +45,6 @@ class SignupTableViewController: BaseTableViewController {
         
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleProfileImageSelection)))
         
-        
-        
         nameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
@@ -55,7 +53,6 @@ class SignupTableViewController: BaseTableViewController {
     }
     
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
@@ -96,7 +93,6 @@ class SignupTableViewController: BaseTableViewController {
             return
         }
         
-        self.dismissKeyboard()
         self.showSpinner()
         
         Auth.auth().createUser(withEmail: email.lowercased(), password: password,
@@ -108,6 +104,7 @@ class SignupTableViewController: BaseTableViewController {
                                     return
                                 }
                                 
+                                //get de uid from the current user.
                                 guard let uid = user?.uid else {
                                     return
                                 }
@@ -155,8 +152,9 @@ class SignupTableViewController: BaseTableViewController {
         
         let user = LocalUser()
         user.setValuesForKeys(values)
-        self.chatController?.setupNavBarWithUser(user: user)
+        self.chatController?.loadUserInNavBar(user: user)
         
+        self.hideSpinner()
         self.dismiss(animated: true, completion: nil)
     }
   

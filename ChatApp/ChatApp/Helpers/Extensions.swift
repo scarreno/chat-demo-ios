@@ -126,6 +126,11 @@ extension UIButton{
     func setFontButton(){
         self.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 15)
     }
+    
+    func roundCorners(){
+        self.layer.cornerRadius = 5
+        self.layer.masksToBounds  = true
+    }
 }
 
 extension UIBarButtonItem {
@@ -138,5 +143,50 @@ extension UIBarButtonItem {
                                     for: UIControlState.normal)
     }
     
+}
+
+extension NSDate {
+    
+    func days() -> Int {
+        return Calendar.current.dateComponents([.day], from: self as Date, to: Date()).day ?? 0
+    }
+    func hours() -> Int {
+        return Calendar.current.dateComponents([.hour], from: self as Date, to: Date()).hour ?? 0
+    }
+    func minutes() -> Int {
+        return Calendar.current.dateComponents([.minute], from: self as Date, to: Date()).minute ?? 0
+    }
+    func seconds() -> Int {
+        return Calendar.current.dateComponents([.second], from: self as Date, to: Date()).second ?? 0
+    }
+    
+    
+    func getPrettyString() -> String {
+        let secondsBetween = self.seconds()
+        if (secondsBetween < 45)
+        {
+            return "just now"
+        }
+        
+        let hoursBetween = self.hours()
+        if (hoursBetween < 1)
+        {
+            let minutesBetween = self.minutes()
+            return (minutesBetween <= 1 ? "a minute ago" : "\(minutesBetween) minutes ago")
+        }
+        
+        let differenceInDays = self.days()
+        if (differenceInDays < 1)
+        {
+            let hours = self.hours()
+            return (hours <= 1) ? "an hour ago" : "\(hours) hours ago"
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+        
+        return dateFormatter.string(from: self as Date)
+    }
+ 
 }
 
