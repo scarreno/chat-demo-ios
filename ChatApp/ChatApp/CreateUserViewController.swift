@@ -25,10 +25,17 @@ class CreateUserViewController: BaseViewController {
     
     @IBOutlet var resultLabel: UILabel!
     @IBAction func addUserButtonPressed(_ sender: Any) {
-        handleAddUser()
         
+        if self.userId == nil {
+            handleAddUser()
+        }else{
+            handleUpdateUser()
+        }
+    
     }
     
+    let apiRestManager = ApiRestManager()
+    var userId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +60,7 @@ class CreateUserViewController: BaseViewController {
     
     func handleSelectUser(){
         if let usersController = storyboard?.instantiateViewController(withIdentifier: "UsersTableViewController") as? UsersTableViewController{
+            usersController.delegate = self
             let navController = UINavigationController(rootViewController: usersController)
             present(navController, animated: true, completion: nil)
             
@@ -86,70 +94,73 @@ class CreateUserViewController: BaseViewController {
         
         self.showSpinner()
         
-        let dictionary = ["Name": name, "Email": email] as [String: AnyObject]
-        if let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted]){
-            let url = URL(string: "http://lagash-test-api.azurewebsites.net/api/form")!
+        apiRestManager.addUser(name: name, email: email) { (userId, error) in
             
-            print(jsonData)
+             if error != nil{
+                self.showMessage(text: "There has been an error!", title: "Error")
+                return
+            }
             
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.httpBody = jsonData
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let task = URLSession.shared.dataTask(with: request){data, response, error in
-                if error != nil{
-                    self.hideSpinner()
-                    self.showMessage(text: "There has been an error!", title: "Error")
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse, let responseData = data , let responseString = String(data: responseData, encoding: .utf8) {
-                    if httpResponse.statusCode == 200 {
-                       
-                        DispatchQueue.main.async {
-                            self.setResultLabel(isOk: true, id: responseString)
-                        }
-                        
-                    }else {
-                        DispatchQueue.main.async {
-                            self.setResultLabel(isOk: false, id: "")
-                        }
-                    }
-
-                }
-                
+            if let userId = userId {
                 DispatchQueue.main.async {
+                    self.resultLabel.text = "User Added!, with string \(userId)"
                     self.cleanForm()
                     self.hideSpinner()
                 }
             }
-            task.resume()
+        }
+    }
+
+    func handleUpdateUser(){
+        
+        guard let name = nameTextField.text, let email = emailTextField.text else{
+            return
         }
         
+        
+        if email == "" || name == "" {
+            self.showMessage(text: "Complete the information", title: "Error")
+            return
+        }
+        
+        
+        self.showSpinner()
+        
+        let user = UserForm()
+        user.userId = self.userId
+        user.name = name
+        user.email = email
+        
+            apiRestManager.updateUser(user: user, completionHandler: { (userId, error) in
+                if error != nil{
+                    self.showMessage(text: "There has been an error!", title: "Error")
+                    return
+                }
+            
+                if let userId = userId {
+                    DispatchQueue.main.async {
+                        self.resultLabel.text = "User Updated!"
+                        self.cleanForm()
+                        self.hideSpinner()
+                    }
+                }
+            })
     }
+
     
     func cleanForm(){
         nameTextField.text = ""
         emailTextField.text = ""
+        TitleLabel.text = "Create User"
+        addUserButton.setTitle("Add User", for: UIControlState.normal)
     }
     
-    func setResultLabel(isOk: Bool, id: String){
-        
-        if isOk {
-            self.resultLabel.setSuccessStyle()
-            self.resultLabel.text = "User Added!, with string \(id)"
-        }
-        else{
-            self.resultLabel.setErrorStyle()
-            self.resultLabel.text = "Error!"
-        }
-    }
+    
     
    
 }
 
-extension CreateUserViewController: UITextFieldDelegate{
+extension CreateUserViewController: UITextFieldDelegate, EditUserDelegate{
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -162,6 +173,15 @@ extension CreateUserViewController: UITextFieldDelegate{
             self.handleAddUser()
             return true
         }        
+    }
+    
+    func didSelectUser(user: UserForm) {
+        self.userId = user.userId
+        self.nameTextField.text = user.name
+        self.emailTextField.text = user.email
+        
+        TitleLabel.text = "Edit User"
+        addUserButton.setTitle("Edit User", for: UIControlState.normal)
     }
 
 }

@@ -218,3 +218,18 @@ extension String
     }
 }
 
+
+extension UITableViewCell{
+    
+    func setBottomBorder(){
+        
+        let width = CGFloat(0.5)
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: self.frame.size.height)
+        bottomBorder.borderWidth = width
+        bottomBorder.borderColor = UIColor.lightGray.cgColor
+        self.layer.addSublayer(bottomBorder)
+        self.layer.masksToBounds = true
+
+    }
+}

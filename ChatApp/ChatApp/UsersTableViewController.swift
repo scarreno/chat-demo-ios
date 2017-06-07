@@ -8,10 +8,22 @@
 
 import UIKit
 
+
+
+protocol EditUserDelegate{
+    
+    func didSelectUser(user: UserForm)
+}
+
+
 class UsersTableViewController: UITableViewController {
 
     var users = [UserForm]()
     var refreshControlView: UIRefreshControl?
+    let apiRestManager = ApiRestManager()
+    
+    var delegate: EditUserDelegate? = nil
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,51 +66,27 @@ class UsersTableViewController: UITableViewController {
     }
     
     func handleRefresh(){
-        print("get data!")
-            let url = URL(string: "http://lagash-test-api.azurewebsites.net/api/form")!
+        
+        users.removeAll()
+        
+        
+        apiRestManager.getUsers { (users, error) in
             
-        
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-        
-            let task = URLSession.shared.dataTask(with: request){data, response, error in
-                if error != nil{
-                    print(error)
-                    return
-                }else {
-                    do {
-                        
-                        if let responseData = data {
-                            let parsedData = try JSONSerialization.jsonObject(with: responseData, options: []) as! [AnyObject]
-                            
-                            
-                            for object in parsedData {
-                                if let name = object["Name"], let email = object["Email"], let uid = object["id"] {
-                                    let user = UserForm()
-                                    user.name = name as! String
-                                    user.email = email as! String
-                                    user.userId = uid as! String
-                                    self.users.append(user)
-                                }
-                                
-                                
-                                print()
-                            }
-                        }
-                        
-                    } catch let error as NSError {
-                        print(error)
-                    }
-                }
-                
-                
+            if error != nil {
+                return
+            }
+            
+            if let usersArray = users {
+                self.users = users!
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.refreshControlView?.endRefreshing()
                 }
             }
-            task.resume()
+        }
+        
+        
     }
 
     
@@ -107,6 +95,7 @@ class UsersTableViewController: UITableViewController {
 
         let user = users[indexPath.row]
         
+        cell.setBottomBorder()
         cell.textLabel?.text = user.name
         cell.detailTextLabel?.text = user.email
 
@@ -119,10 +108,13 @@ class UsersTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = users[indexPath.row]
+        let selectedUser = users[indexPath.row]
         
-        print("Selected User: \(user.userId)")
-
+        print("Selected User: \(selectedUser.userId)")
+        if delegate != nil {
+            delegate?.didSelectUser(user: selectedUser)
+            dismiss(animated: true, completion: nil)
+        }
     }
 
 }

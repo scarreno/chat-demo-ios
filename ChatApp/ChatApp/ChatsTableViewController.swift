@@ -14,6 +14,7 @@ class ChatsTableViewController: BaseTableViewController {
     
     var messages = [Message]()
     var messageDictionary = [String: Message]()
+    var refreshControlView: UIRefreshControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +29,27 @@ class ChatsTableViewController: BaseTableViewController {
         
         checkIfUserIsLoggedIn()
         observeUserMessages()
+        addRefreshControl()
+        self.refreshControlView?.beginRefreshing()
     }
     
+    func addRefreshControl(){
+        
+        refreshControlView = UIRefreshControl()
+        refreshControlView?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControlView?.tintColor = UIColor(r: 30, g: 75, b: 240)
+        refreshControlView?.attributedTitle = NSAttributedString(string: "Fetching Users...")
+        // Add to Table View
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControlView
+        } else {
+            tableView.addSubview(refreshControlView!)
+        }
+    }
+
+    func handleRefresh(){
+        observeUserMessages()
+    }
     
     func observeUserMessages(){
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -85,6 +105,7 @@ class ChatsTableViewController: BaseTableViewController {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.refreshControlView?.endRefreshing()
         }
     
     }
