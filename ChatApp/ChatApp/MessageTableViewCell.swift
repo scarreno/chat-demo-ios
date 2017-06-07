@@ -13,7 +13,7 @@ class MessageTableViewCell: UITableViewCell {
     
     @IBOutlet var messageTextView: UITextView!
     
-    @IBOutlet var bubbleView: UIView!
+    @IBOutlet var bubbleMessageView: UIView!
     
     
     override func awakeFromNib() {
@@ -25,8 +25,8 @@ class MessageTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         self.messageTextView.backgroundColor = UIColor.clear
-        self.bubbleView.layer.cornerRadius = 5
-        self.bubbleView.layer.masksToBounds = true
+        self.bubbleMessageView.layer.cornerRadius = 5
+        self.bubbleMessageView.layer.masksToBounds = true
 
     }
 

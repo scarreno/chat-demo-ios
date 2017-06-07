@@ -12,54 +12,71 @@ import Firebase
 class NewMessageTableViewController: UITableViewController {
 
     var users = [LocalUser]()
-    
+    var refreshControlView: UIRefreshControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //navigationItem.title = "New Message"
-        setupNavBar()
+        loadNavBarTitle()
         
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(doCancel))
         cancelButton.setStyle()
         navigationItem.leftBarButtonItem = cancelButton
-
-        fetchUsers()
+        fetchAllUsers()
+        
+        addRefreshControl()
     }
 
-    func handleCancel() {
+    func doCancel() {
         self.dismiss(animated: true, completion: nil)
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func addRefreshControl(){
+        
+        refreshControlView = UIRefreshControl()
+        refreshControlView?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControlView?.tintColor = UIColor(r: 30, g: 75, b: 240)
+        refreshControlView?.attributedTitle = NSAttributedString(string: "Fetching Users...")
+        // Add to Table View
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControlView
+        } else {
+            tableView.addSubview(refreshControlView!)
+        }
+    }
+    
+    func handleRefresh(){
+        fetchAllUsers()
     }
     
     
-    func setupNavBar(){
+    func loadNavBarTitle(){
         
-        let titleView = UIView()
-        titleView.frame = CGRect(x: 0, y: 0, width: 130, height: 40)
+        let navBarTitleView = UIView()
+        navBarTitleView.frame = CGRect(x: 0, y: 0, width: 130, height: 40)
         
         
-        let nameLabel = UILabel()
-        titleView.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "New Message"
-        nameLabel.setMediumBoldLagashFont()
+        let navBarLabel = UILabel()
+        navBarTitleView.addSubview(navBarLabel)
+        navBarLabel.translatesAutoresizingMaskIntoConstraints = false
+        navBarLabel.text = "New Message"
+        navBarLabel.setMediumBoldLagashFont()
         
-        nameLabel.leftAnchor.constraint(equalTo: titleView.rightAnchor, constant: 8).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: titleView.rightAnchor).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        nameLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        navBarLabel.leftAnchor.constraint(equalTo: navBarTitleView.rightAnchor, constant: 8).isActive = true
+        navBarLabel.centerYAnchor.constraint(equalTo: navBarTitleView.centerYAnchor).isActive = true
+        navBarLabel.rightAnchor.constraint(equalTo: navBarTitleView.rightAnchor).isActive = true
+        navBarLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        navBarLabel.centerXAnchor.constraint(equalTo: navBarTitleView.centerXAnchor).isActive = true
+        navBarLabel.centerYAnchor.constraint(equalTo: navBarTitleView.centerYAnchor).isActive = true
         
-        self.navigationItem.titleView = titleView
+        self.navigationItem.titleView = navBarTitleView
 
     }
     
-    func fetchUsers(){
+    func fetchAllUsers(){
+        
+        self.users.removeAll()
+        
         Database.database().reference().child("users").observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject]{
                 let user =  LocalUser()
@@ -73,6 +90,7 @@ class NewMessageTableViewController: UITableViewController {
                     })
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.refreshControlView?.endRefreshing()
                     }
                 }
             }
@@ -94,12 +112,10 @@ class NewMessageTableViewController: UITableViewController {
     var chatsTableViewController: ChatsTableViewController?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
         let user = self.users[indexPath.row]
         dismiss(animated: true)
             
         self.chatsTableViewController?.showChatLogControllerForUser(user: user)
-        print("leaving")
     }
     
 }

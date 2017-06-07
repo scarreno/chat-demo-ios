@@ -109,8 +109,20 @@ extension UILabel {
         self.font = UIFont(name: "Poppins-Light", size: 12)
     }
     
+    func setTimeStyleLagashFont() {
+        self.font = UIFont(name: "Poppins-Light", size: 10)
+    }
+    
     func setMediumBoldLagashFont() {
         self.font = UIFont(name: "Poppins-Medium", size: 16)
+    }
+    
+    func setSuccessStyle() {
+        self.font = UIFont(name: "Poppins-Medium", size: 15)
+    }
+    func setErrorStyle() {
+        self.font = UIFont(name: "Poppins-Medium", size: 15)
+        self.textColor = UIColor.red
     }
     
 }
@@ -126,6 +138,11 @@ extension UIButton{
     func setFontButton(){
         self.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 15)
     }
+    
+    func roundCorners(){
+        self.layer.cornerRadius = 5
+        self.layer.masksToBounds  = true
+    }
 }
 
 extension UIBarButtonItem {
@@ -140,3 +157,79 @@ extension UIBarButtonItem {
     
 }
 
+extension NSDate {
+    
+    func days() -> Int {
+        return Calendar.current.dateComponents([.day], from: self as Date, to: Date()).day ?? 0
+    }
+    func hours() -> Int {
+        return Calendar.current.dateComponents([.hour], from: self as Date, to: Date()).hour ?? 0
+    }
+    func minutes() -> Int {
+        return Calendar.current.dateComponents([.minute], from: self as Date, to: Date()).minute ?? 0
+    }
+    func seconds() -> Int {
+        return Calendar.current.dateComponents([.second], from: self as Date, to: Date()).second ?? 0
+    }
+    
+    
+    func getPrettyString() -> String {
+        let secondsBetween = self.seconds()
+        if (secondsBetween < 45)
+        {
+            return "just now"
+        }
+        
+        let hoursBetween = self.hours()
+        if (hoursBetween < 1)
+        {
+            let minutesBetween = self.minutes()
+            return (minutesBetween <= 1 ? "a minute ago" : "\(minutesBetween) minutes ago")
+        }
+        
+        let differenceInDays = self.days()
+        if (differenceInDays < 1)
+        {
+            let hours = self.hours()
+            return (hours <= 1) ? "an hour ago" : "\(hours) hours ago"
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+        
+        return dateFormatter.string(from: self as Date)
+    }
+    
+    func fullFormat()-> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+        
+        return dateFormatter.string(from: self as Date)
+
+    }
+ 
+}
+
+extension String
+{
+    func trimText() -> String
+    {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
+    }
+}
+
+
+extension UITableViewCell{
+    
+    func setBottomBorder(){
+        
+        let width = CGFloat(0.5)
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: self.frame.size.height)
+        bottomBorder.borderWidth = width
+        bottomBorder.borderColor = UIColor.lightGray.cgColor
+        self.layer.addSublayer(bottomBorder)
+        self.layer.masksToBounds = true
+
+    }
+}

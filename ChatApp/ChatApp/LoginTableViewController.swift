@@ -17,11 +17,11 @@ class LoginTableViewController: BaseTableViewController {
     
     @IBOutlet var createAccountButton: UIButton!
     @IBAction func createAccountButtonPressed(_ sender: Any) {
-        handleSignup()
+        goToSignup()
     }
     
     @IBAction func btnRegisterPressed(_ sender: Any) {
-            handleLogin()
+            doLogin()
     }
     
     var isProfilePictureLoaded: Bool = false
@@ -32,17 +32,18 @@ class LoginTableViewController: BaseTableViewController {
 
         StylizeForm()
         
+        addKeyboardGesture()
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+    }
+    
+    func addKeyboardGesture(){
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
-        
-        loginRegisterButton.layer.cornerRadius = 5
-        loginRegisterButton.layer.masksToBounds  = true
-        
-        
-        
     }
     
     func StylizeForm(){
@@ -54,6 +55,8 @@ class LoginTableViewController: BaseTableViewController {
         
         emailTextField.setRegularLagashFont()
         passwordTextField.setRegularLagashFont()
+        
+        loginRegisterButton.roundCorners()
     }
 
     
@@ -63,10 +66,7 @@ class LoginTableViewController: BaseTableViewController {
         view.endEditing(true)
     }
     
-    
-   
-    
-    func handleLogin() {
+    func doLogin() {
         guard let email = emailTextField.text, let password = passwordTextField.text
             else {
                 return
@@ -78,29 +78,22 @@ class LoginTableViewController: BaseTableViewController {
         }
         
         self.dismissKeyboard()
-        
         self.showSpinner()
         
         Auth.auth().signIn(withEmail: email, password: password) { (user: User?, error) in
             if error != nil {
                 self.showMessage(text: "There has been an error trying to signin", title: "Error!")
-                /*
-                if let errorMessage = error {
-                    print(errorMessage)
-                }
-                */
                 self.hideSpinner()
                 return
             }
             
-            self.chatController?.fetchUserAndSetupNavBar()
+            self.chatController?.fetchCurrentUser()
             self.hideSpinner()
             self.dismiss(animated: true, completion: nil)
         }
     }
     
-    func handleSignup(){
-        //dismiss(animated: true, completion: nil)
+    func goToSignup(){
         self.navigationController?.popViewController(animated: true)
         
     }
@@ -114,7 +107,7 @@ extension LoginTableViewController: UITextFieldDelegate, UIImagePickerController
         }
         else{
             textField.resignFirstResponder()
-            handleLogin()
+            doLogin()
             return true
         }
     }
@@ -123,7 +116,7 @@ extension LoginTableViewController: UITextFieldDelegate, UIImagePickerController
     
 }
 
-
+/*
 extension UITableViewController {
     func showMessage(text: String, title: String){
         let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
@@ -131,4 +124,16 @@ extension UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+ */
+
+
+
+extension UIViewController {
+    func showMessage(text: String, title: String){
+        let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
 

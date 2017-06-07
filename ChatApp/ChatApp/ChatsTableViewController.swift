@@ -14,10 +14,12 @@ class ChatsTableViewController: BaseTableViewController {
     
     var messages = [Message]()
     var messageDictionary = [String: Message]()
+    var refreshControlView: UIRefreshControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.title = ""
         
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(verifyLogout))
@@ -25,11 +27,29 @@ class ChatsTableViewController: BaseTableViewController {
         navigationItem.leftBarButtonItem = logoutButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(handleNewMessage))
         
-        checkIfUserLoggedIn()
-        
+        checkIfUserIsLoggedIn()
         observeUserMessages()
+        addRefreshControl()
+        self.refreshControlView?.beginRefreshing()
     }
     
+    func addRefreshControl(){
+        
+        refreshControlView = UIRefreshControl()
+        refreshControlView?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControlView?.tintColor = UIColor(r: 30, g: 75, b: 240)
+        refreshControlView?.attributedTitle = NSAttributedString(string: "Fetching Users...")
+        // Add to Table View
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControlView
+        } else {
+            tableView.addSubview(refreshControlView!)
+        }
+    }
+
+    func handleRefresh(){
+        observeUserMessages()
+    }
     
     func observeUserMessages(){
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -85,23 +105,23 @@ class ChatsTableViewController: BaseTableViewController {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.refreshControlView?.endRefreshing()
         }
     
     }
     
-    func checkIfUserLoggedIn(){
+    func checkIfUserIsLoggedIn(){
         if Auth.auth().currentUser?.uid == nil {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.handleLogout()
             }
         }else {
-           fetchUserAndSetupNavBar()
+           fetchCurrentUser()
         }
 
     }
     
-    func fetchUserAndSetupNavBar(){
-        //if for some reason this is = nil
+    func fetchCurrentUser(){
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
@@ -111,13 +131,14 @@ class ChatsTableViewController: BaseTableViewController {
                 if let dictionary = snapshot.value as? [String: AnyObject]{
                     let user = LocalUser()
                     user.setValuesForKeys(dictionary)
-                    self.setupNavBarWithUser(user: user)
+                    self.loadUserInNavBar(user: user)
                 }
             })
     }
     
-    func setupNavBarWithUser(user :LocalUser){
+    func loadUserInNavBar(user :LocalUser){
         
+        //clean arrays, because of the new user
         messages.removeAll()
         messageDictionary.removeAll()
         tableView.reloadData()
@@ -150,16 +171,16 @@ class ChatsTableViewController: BaseTableViewController {
         profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
-        let nameLabel = UILabel()
-        containerView.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = user.name
-        nameLabel.setMediumBoldLagashFont()
+        let userNameLabel = UILabel()
+        containerView.addSubview(userNameLabel)
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.text = user.name
+        userNameLabel.setMediumBoldLagashFont()
         
-        nameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        userNameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+        userNameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        userNameLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+        userNameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     
         containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
@@ -251,9 +272,6 @@ class ChatsTableViewController: BaseTableViewController {
             }
             
         }, withCancel: nil)
-        
-        
-        //showChatLogControllerForUser(user: user)
     }
 
 }
