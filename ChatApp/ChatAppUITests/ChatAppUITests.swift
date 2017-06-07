@@ -33,9 +33,8 @@ class ChatAppUITests: XCTestCase {
         XCUIDevice.shared().orientation = .faceUp
         XCUIDevice.shared().orientation = .faceUp
         
-        let tablesQuery = XCUIApplication().tables
-        tablesQuery.buttons["Sign Up"].tap()
-        XCUIDevice.shared().orientation = .portrait
+        let app = XCUIApplication()
+        let tablesQuery = app.tables
         tablesQuery.buttons["I'm a registered user"].tap()
         tablesQuery.textFields["Email"].tap()
         
@@ -47,10 +46,10 @@ class ChatAppUITests: XCTestCase {
         tablesQuery.secureTextFields["Password"].tap()
         cellsQuery.children(matching: .secureTextField).element.typeText("qwerty")
         signInButton.tap()
-        
+        app.navigationBars["ChatApp.ChatsTableView"].buttons["Compose"].tap()
+        app.navigationBars["Root View Controller"].buttons["Cancel"].tap()
         
     }
-    
     func testLogout() {
         XCUIDevice.shared().orientation = .faceUp
         XCUIDevice.shared().orientation = .faceUp
